@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intersection Observer - Multiple Elements</title>
+    <style>
+        body {
+            background: #000;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: plum;
+            margin-bottom: 20px;
+            height: 250px;
+            border-radius: 20px;
+        }
+
+        .box {
+            background-color:#2b2d42;
+            height: 150px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            transition: ease .5s;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Intersection Observer - Multiple Elements</h1>
+    </header>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div id="here" class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+
+
+    <script>
+        var target = Array.from(document.getElementsByClassName('box'));
+        var options = {
+            rootMargin: '-60% 0px -40% 0px',
+            threshold: 0
+        }
+
+        //-----Usando    isIntersecting
+        //Es importante 'threshol' este en  0, así detecta cuando el elemento entra y sale
+        //entry.isIntersecting logra cambiar true a false
+        //Al estar en uno solo detecta cuando entra, luego lo ignora 
+        //entry.isIntersecting cambia a true pero no vuelve a false
+
+        var callback = function (entries, observer) {
+            entries.forEach(entry => {
+                console.log(entry.target)
+                if (entry.isIntersecting) {
+                    entry.target.style.background = 'yellow'
+                } else {
+
+                    entry.target.style.background = '#2b2d42'
+                }
+            });
+
+        };
+        var observer = new IntersectionObserver(callback, options);
+
+        target.forEach((item, pos) => {
+
+            observer.observe(item);
+        });
+    </script>
+
+</body>
+
+</html>
